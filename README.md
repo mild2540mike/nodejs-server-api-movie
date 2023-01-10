@@ -1,6 +1,20 @@
 # nodejs-server-api-movie
 How to install
--
+-install database
+  open Project: nodejs-server-api-movie\database\movie_db.sql
+  Config Database Connection models/BaseModel.js
+  var connection = mysql.createConnection({
+    connectionimit: 100,
+    host: 'localhost',
+    user: '[instance user]',
+    port: 3306, 
+    password: '[password]',
+    database: 'movie_db',
+    multipleStatements: true
+}); 
+
+  ![image](https://user-images.githubusercontent.com/52666884/211618688-58eea9ab-0be7-40fb-8c91-ccc9726e42da.png)
+
 -git clone https://github.com/mild2540mike/nodejs-server-api-movie.git
 -cd ./nodejs-server-api-movie
 -npm i && npm i nodemon -g
