@@ -1,6 +1,20 @@
 # nodejs-server-api-movie
 How to install
--
+-install database
+  open Project: nodejs-server-api-movie\database\movie_db.sql
+  Config Database Connection models/BaseModel.js
+  var connection = mysql.createConnection({
+    connectionimit: 100,
+    host: 'localhost',
+    user: '[instance user]',
+    port: 3306, 
+    password: '[password]',
+    database: 'movie_db',
+    multipleStatements: true
+}); 
+
+  ![image](https://user-images.githubusercontent.com/52666884/211618688-58eea9ab-0be7-40fb-8c91-ccc9726e42da.png)
+
 -git clone https://github.com/mild2540mike/nodejs-server-api-movie.git
 -cd ./nodejs-server-api-movie
 -npm i && npm i nodemon -g
@@ -9,82 +23,62 @@ How to install
 
 Share api postman https://api.postman.com/collections/17305107-ccdfd7e6-846c-4381-8b6a-97accf973480?access_key=PMAT-01GPE88RCV3PJRDYK9MZF00X8M
 
-1) Get movie List.
-http://localhost:8080/movie/getMovieBy
-
-Respone with a list of movies
-{
-    "data": [
-        {
-            "movie_id": "M0001",
-            "movie_name": "The Avengers",
-            "release_date": "2022-12-31T17:00:00.000Z",
-            "duration": "01:10:00",
-            "director": "Joss Whedon",
-            "actors": "Robert Downey Jr., Chris Evans, Mark Ruffalo, Chris Hemsworth, Scarlett Johansson",
-            "movie_image": "movie/f857a736-4cf3-4f3c-9acf-0671a790ef7f.jpg"
-        },
-        {
-            "movie_id": "M0002",
-            "movie_name": "Harry Potter and the Deathly Hallows: Part 2",
-            "release_date": "2022-12-31T17:00:00.000Z",
-            "duration": "02:00:00",
-            "director": "David Yates",
-            "actors": "Daniel Radcliffe, Rupert Grint, Emma Watson, Ralph Fiennes, Michael Gambon",
-            "movie_image": "movie/f857a736-4cf3-4f3c-9acf-0671a790ef7f.jpg"
-        }
-    ],
-    "error": [],
-    "query_result": true,
-    "server_result": true
-}
+Get movie List.
+POST http://localhost:8080/movie/getMovieBy
 ===================================================================================================================================
-
-2) Booking ticket.
-
-2.1) Choose a Movie
-http://localhost:8080/movie/getMovieByMovieCode
-
+Choose a Movie
+POST http://localhost:8080/movie/getMovieByMovieCode
 {
     "movie_id": "M0001"
 }
 
-Respone with a one movie booking
-{
-    "data": [
-        {
-            "movie_id": "M0001",
-            "movie_name": "The Avengers",
-            "release_date": "2022-12-31T17:00:00.000Z",
-            "duration": "01:10:00",
-            "director": "Joss Whedon",
-            "actors": "Robert Downey Jr., Chris Evans, Mark Ruffalo, Chris Hemsworth, Scarlett Johansson",
-            "movie_image": "movie/f857a736-4cf3-4f3c-9acf-0671a790ef7f.jpg"
-        }
-    ],
-    "error": [],
-    "query_result": true,
-    "server_result": true
-}
+Redirect Booking
+POST http://localhost:8080/movie/getMovieByDate
 
-2.2) Choose a Movie Show date
+choose date
 http://localhost:8080/movie/getMovieByDate
-
 {
-    "movie_id": "M0001",
-    "show_date": "2023-01-09"
+    "movie_id": "M0002"
 }
 
-Respone with a one movie show date booking  
+choose Theater
+POST http://localhost:8080/movie/getMovieByTheater
+{
+     "movie_id": "M0002",
+     "show_date": "2023-01-10"
+}
 
-===================================================================================================================================
+choose Time
+POST http://localhost:8080/movie/getMovieByTime
+{
+     "movie_id": "M0002",
+     "show_date": "2023-01-10"
+}
 
-3) Cancel booking.
+display screen choose seats
+POST http://localhost:8080/movie/getMovieByScreen
+{
+     "movie_id": "M0002",
+     "show_date": "2023-01-10",
+     "show_time": "11:30:00"
+}
 
+choose seats Call price
+POST http://localhost:8080/movie/getMovieByBooking
+{
+     "movie_id": "M0002",
+     "show_date": "2023-01-10",
+     "show_time": "11:30:00",
+     "seat_number": ["A1", "A2","A3","A4","A5","A6","A7"]
+}
 
-===================================================================================================================================
-4) Show available seat.
-
-===================================================================================================================================
-5) How to manage many traffic.
-
+Booking ticket
+POST http://localhost:8080/movie/updateMovieByBookingCode
+{
+     "movie_id": "M0002",
+     "show_date": "2023-01-10",
+     "show_time": "11:30:00",
+     "seat_number": ["A4", "A3", "A7"],
+     "seat_id": ["SE0004", "SE0003", "SE0007"],
+     "booking_id": "B0002"
+}
